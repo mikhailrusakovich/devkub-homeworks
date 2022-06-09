@@ -16,9 +16,36 @@
   - sudo apt-get update && sudo apt-get install docker.io conntrack -y
   - curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
 - проверить версию можно командой minikube version
+```
+ubuntu@ip-172-31-10-40:~$ minikube version
+minikube version: v1.25.2
+commit: 362d5fdc0a3dbee389b3d3f1034e8023e72bd3a7
+```
 - переключаемся на root и запускаем миникуб: minikube start --vm-driver=none
 - после запуска стоит проверить статус: minikube status
+```commandline
+root@ip-172-31-10-40:/home/ubuntu# minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+```
 - запущенные служебные компоненты можно увидеть командой: kubectl get pods --namespace=kube-system
+```commandline
+root@ip-172-31-10-40:/home/ubuntu# kubectl get pods --namespace=kube-system
+NAME                                      READY   STATUS    RESTARTS   AGE
+coredns-64897985d-fd6kj                   1/1     Running   0          13s
+etcd-ip-172-31-10-40                      1/1     Running   0          26s
+kube-apiserver-ip-172-31-10-40            1/1     Running   0          26s
+kube-controller-manager-ip-172-31-10-40   1/1     Running   0          26s
+kube-proxy-95qrm                          1/1     Running   0          13s
+kube-scheduler-ip-172-31-10-40            1/1     Running   0          26s
+storage-provisioner                       1/1     Running   0          24s
+
+```
+
 
 ### Для сброса кластера стоит удалить кластер и создать заново:
 - minikube delete
@@ -34,7 +61,31 @@
 После установки Minikube требуется его проверить. Для этого подойдет стандартное приложение hello world. А для доступа к нему потребуется ingress.
 
 - развернуть через Minikube тестовое приложение по [туториалу](https://kubernetes.io/ru/docs/tutorials/hello-minikube/#%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0-minikube)
+выполнено
 - установить аддоны ingress и dashboard
+```commandline
+root@ip-172-31-10-40:/home/ubuntu# minikube addons enable ingress
+    ▪ Using image k8s.gcr.io/ingress-nginx/controller:v1.1.1
+    ▪ Using image k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.1.1
+    ▪ Using image k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.1.1
+🔎  Verifying ingress addon...
+🌟  The 'ingress' addon is enabled
+root@ip-172-31-10-40:/home/ubuntu# minikube addons enable dashboard
+    ▪ Using image kubernetesui/dashboard:v2.3.1
+    ▪ Using image kubernetesui/metrics-scraper:v1.0.7
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+        minikube addons enable metrics-server   
+
+
+🌟  The 'dashboard' addon is enabled
+
+root@ip-172-31-12-129:/home/ubuntu# kubectl get services
+NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.101.31.117   <pending>     8080:30371/TCP   9s
+kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP          9m35s
+
+```
 
 ## Задача 3: Установить kubectl
 
