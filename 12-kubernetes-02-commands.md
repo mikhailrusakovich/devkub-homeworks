@@ -11,6 +11,18 @@
  * наличие deployment можно проверить командой kubectl get deployment
  * наличие подов можно проверить командой kubectl get pods
 
+```commandline
+Mikhails-MBP:12-02 mikhailrusakovich$ kubectl apply -f helloworld_dep.yaml 
+deployment.apps/hello-world created
+service/hello-world unchanged
+
+Mikhails-MBP:12-02 mikhailrusakovich$ kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+hello-world-75b9ff444f-d2plg   1/1     Running   0          12s
+hello-world-75b9ff444f-mknl9   1/1     Running   0          12s
+
+
+```
 
 ## Задание 2: Просмотр логов для разработки
 Разработчикам крайне важно получать обратную связь от штатно работающего приложения и, еще важнее, об ошибках в его работе. 
@@ -28,6 +40,19 @@
 Требования:
  * в deployment из задания 1 изменено количество реплик на 5
  * проверить что все поды перешли в статус running (kubectl get pods)
+
+```commandline
+Mikhails-MBP:12-02 mikhailrusakovich$ kubectl edit deployment hello-world
+deployment.apps/hello-world edited
+Mikhails-MBP:12-02 mikhailrusakovich$ kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+hello-world-75b9ff444f-46vrf   1/1     Running   0          3s
+hello-world-75b9ff444f-595pl   1/1     Running   0          3s
+hello-world-75b9ff444f-d2plg   1/1     Running   0          95s
+hello-world-75b9ff444f-mknl9   1/1     Running   0          95s
+hello-world-75b9ff444f-vbvzg   1/1     Running   0          3s
+
+```
 
 ---
 
